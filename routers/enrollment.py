@@ -1,0 +1,19 @@
+from fastapi import APIRouter, Depends, HTTPException
+from sqlalchemy.orm import Session
+from database import get_db
+from models.enrollment import Enrollment
+from schemas.enrollment import EnrollmentCreate, EnrollmentResponse
+
+router = APIRouter(prefix="/enrollments", tags=["Enrollments"])
+
+@router.post("/", response_model=EnrollmentResponse)
+def create_enrollment(enrollment: EnrollmentCreate, db: Session = Depends(get_db)):
+    new_enrollment = Enrollment(**enrollment.model_dump())
+    db.add(new_enrollment)
+    db.commit()
+    db.refresh(new_enrollment)
+    return new_enrollment
+
+@router.get("/", response_model=list[EnrollmentResponse])
+def get_enrollments(db: Session = Depends(get_db)):
+    return db.query(Enrollment).all()
