@@ -1,6 +1,6 @@
 __pycache__/
 *.pyc
-*.pyo
-*.db
-.env
 venv/
+.env
+*.db
+node_modules/
