@@ -46,3 +46,10 @@ def refresh_access_token(token_data: dict = Depends(verify_token)):
         "refresh_token": refresh_token,
         "token_type": "bearer"
     }
+
+@router.post("/auth/login")
+def login(data: dict):
+    return {
+        "message": "Login success",
+        "email": data["email"]
+    }
