@@ -17,6 +17,7 @@ from routers.reports import router as reports_router
 from models.uploaded_file import UploadedFile
 from fastapi.responses import JSONResponse
 from core.exceptions import AppException
+from fastapi.middleware.cors import CORSMiddleware
 
 Base.metadata.create_all(bind=engine, checkfirst=True)
 
@@ -61,8 +62,14 @@ class LimitUploadSizeMiddleware(BaseHTTPMiddleware):
                 raise HTTPException(status_code=413, detail="File too large")
         return await call_next(request)
 
-app.add_middleware(LimitUploadSizeMiddleware)
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # baad me Netlify URL daal dena
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 app.mount(
     "/uploads",
     StaticFiles(directory="uploads"),
