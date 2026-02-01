@@ -6,6 +6,9 @@ from schemas.auth import LoginRequest, Token
 from passlib.context import CryptContext
 from core.security import create_access_token
 from auth import verify_token, create_access_token
+from pydantic import BaseModel
+from core.security import get_password_hash
+from models.user import User
 
 router = APIRouter(prefix="/auth", tags=["Auth"])
 
@@ -53,3 +56,24 @@ def login(data: dict):
         "message": "Login success",
         "email": data["email"]
     }
+class RegisterSchema(BaseModel):
+    name: str
+    email: str
+    password: str
+
+@router.post("/register")
+def register_admin(user: RegisterSchema, db: Session = Depends(get_db)):
+    hashed_password = get_password_hash(user.password)
+
+    new_user = User(
+        name=user.name,
+        email=user.email,
+        phone=user.phone,
+        hashed_password=hashed_password
+    )
+
+    db.add(new_user)
+    db.commit()
+    db.refresh(new_user)
+
+    return {"message": "User registered successfully", "email": user.email}
