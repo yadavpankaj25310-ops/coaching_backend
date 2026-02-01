@@ -8,7 +8,7 @@ from core.security import create_access_token
 from auth import verify_token, create_access_token
 from pydantic import BaseModel
 from core.security import get_password_hash
-from models.user import User
+from models.student import Student
 
 router = APIRouter(prefix="/auth", tags=["Auth"])
 
@@ -65,7 +65,7 @@ class RegisterSchema(BaseModel):
 def register_admin(user: RegisterSchema, db: Session = Depends(get_db)):
     hashed_password = get_password_hash(user.password)
 
-    new_user = User(
+    new_user = Student(
         name=user.name,
         email=user.email,
         phone=user.phone,
