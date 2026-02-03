@@ -9,6 +9,6 @@ class Student(Base):
     name = Column(String, nullable=False)
     email = Column(String, unique=True, index=True, nullable=False)
     phone = Column(String, nullable=True)
-    password = Column(String, nullable=False)
+    hashed_password = Column(String, nullable=False)
 
     enrollments = relationship("Enrollment", back_populates="student", cascade="all, delete-orphan")
