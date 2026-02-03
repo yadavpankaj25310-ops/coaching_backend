@@ -64,7 +64,7 @@ class RegisterSchema(BaseModel):
 @router.post("/register")
 def register_admin(user: RegisterSchema, db: Session = Depends(get_db)):
     hashed_password = get_password_hash(user.password)
-
+    print(user.dict())
     new_user = Student(
         name=user.name,
         email=user.email,
@@ -77,3 +77,5 @@ def register_admin(user: RegisterSchema, db: Session = Depends(get_db)):
     db.refresh(new_user)
 
     return {"message": "User registered successfully", "email": user.email}
+
+
