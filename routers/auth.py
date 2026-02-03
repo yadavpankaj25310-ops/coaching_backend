@@ -30,7 +30,7 @@ def register(user: RegisterSchema, db: Session = Depends(get_db)):
         name=user.name,
         email=user.email,
         phone=user.phone,
-        password=hashed_password   # ⚠️ column ka naam password hona chahiye
+        hashed_password=hashed_password   # ⚠️ column ka naam password hona chahiye
     )
 
     db.add(new_user)
@@ -62,22 +62,5 @@ def login(data: LoginRequest, db: Session = Depends(get_db)):
         "token_type": "bearer"
     }
 
-
-@router.post("/register")
-def register_admin(user: RegisterSchema, db: Session = Depends(get_db)):
-    hashed_password = get_password_hash(user.password)
-    print(user.dict())
-    new_user = Student(
-        name=user.name,
-        email=user.email,
-        phone=user.phone,
-        hashed_password=hashed_password
-    )
-
-    db.add(new_user)
-    db.commit()
-    db.refresh(new_user)
-
-    return {"message": "User registered successfully", "email": user.email}
 
 
