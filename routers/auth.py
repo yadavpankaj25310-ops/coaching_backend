@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from database import get_db
 from models.student import Student
-from schemas.auth import LoginRequest, Token
+from schemas.auth import LoginRequest, Token, RegisterSchema
 from passlib.context import CryptContext
 from core.security import create_access_token
 from auth import verify_token, create_access_token
