@@ -11,5 +11,5 @@ class Token(BaseModel):
 class RegisterSchema(BaseModel):
     name: str
     email: EmailStr
-    phone: str
     password: str
+    phone: str 
