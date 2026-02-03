@@ -56,10 +56,6 @@ def login(data: dict):
         "message": "Login success",
         "email": data["email"]
     }
-class RegisterSchema(BaseModel):
-    name: str
-    email: str
-    password: str
 
 @router.post("/register")
 def register_admin(user: RegisterSchema, db: Session = Depends(get_db)):
