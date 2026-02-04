@@ -18,6 +18,7 @@ from models.uploaded_file import UploadedFile
 from fastapi.responses import JSONResponse
 from core.exceptions import AppException
 from fastapi.middleware.cors import CORSMiddleware
+from routers import dashboard
 
 Base.metadata.create_all(bind=engine, checkfirst=True)
 
@@ -33,7 +34,7 @@ app.include_router(auth_router)
 app.include_router(admin_router)
 app.include_router(staff_router)
 app.include_router(reports_router)
-
+app.include_router(dashboard.router)
 # ---------- LOGIN API ----------
 @app.post("/login")
 def login(
