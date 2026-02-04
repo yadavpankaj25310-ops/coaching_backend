@@ -1,9 +1,11 @@
 from pydantic import BaseModel, EmailStr
+from typing import Optional
 
 class StudentBase(BaseModel):
     name: str
-    email: EmailStr
-    phone: str
+    email: Optional[EmailStr] = None
+    phone: Optional[str] = None
+    course: Optional[str] = None
 
 class StudentCreate(StudentBase):
     password: str
